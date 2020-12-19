@@ -2,8 +2,8 @@ import './style/app.css';
 import Fragment from "absol/src/AppPattern/Fragment";
 import OOP from "absol/src/HTML5/OOP";
 import {$, _} from "./Core";
-import MLeftNavigator from "absol-mobile/js/dom/MLeftNavigator";
-import MNavigatorMenu from "absol-mobile/js/dom/MNavigatorMenu";
+// import MLeftNavigator from "absol-mobile/js/dom/MLeftNavigator";
+// import MNavigatorMenu from "absol-mobile/js/dom/MNavigatorMenu";
 import 'absol-acomp/css/bscroller.css';
 import mqtt from 'mqtt';
 import {MQTT_SERVER, PRIVATE_CHANNEL} from "./connfig";
@@ -27,12 +27,12 @@ ESPMiniHomeApp.prototype.createView = function () {
     this.$view = _({
         class: 'emh-app',
         child: [
-            {
-                tag: MLeftNavigator,
-                child: {
-                    tag: MNavigatorMenu
-                }
-            },
+            // {
+            //     tag: MLeftNavigator,
+            //     child: {
+            //         tag: MNavigatorMenu
+            //     }
+            // },
             {
                 class: ['emh-app-devices-ctn', 'as-bscroller']
             }
