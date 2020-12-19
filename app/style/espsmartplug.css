@@ -1,0 +1,44 @@
+.emh-esp-smart-plug {
+    position: relative;
+    padding: 0.5em 0.5em 0.5em 7em;
+    min-height: 7em;
+    box-sizing: border-box;
+}
+
+.emh-esp-smart-plug:not(.emh-online) {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.emh-esp-smart-plug.emh-online .emh-esp-smart-plug-device-id {
+    color: lightgreen;
+    font-weight: bold;
+}
+
+.emh-esp-smart-plug-device-id {
+    color: gray;
+    font-size: 1.2em;
+}
+
+
+.emh-esp-smart-plug-type-img-ctn {
+    position: absolute;
+    left: 0.5em;
+    top: calc(50% - 3em);
+    width: 6em;
+    height: 6em;
+}
+
+.emh-esp-smart-plug-type-img-ctn img,
+.emh-esp-smart-plug-type-img-ctn svg {
+    width: 100%;
+    height: 100%;
+}
+
+.emh-esp-smart-plug-switch-ctn {
+    padding: 0.5em;
+}
+
+.emh-esp-smart-plug-switch-ctn > .absol-switch {
+    font-size: 3em;
+}
