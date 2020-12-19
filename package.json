@@ -1,0 +1,48 @@
+{
+  "name": "esp-mini-home",
+  "version": "0.0.1",
+  "description": "control home electric with ESP module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server  --config webpack.config.js --public https://frame.absol.cf",
+    "dist": "webpack --config webpack.config.js --progress --profile --colors --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duthienkt/esp-mini-home.git"
+  },
+  "keywords": [
+    "iot",
+    "esp8266",
+    "esp32",
+    "mqtt",
+    "smart",
+    "home"
+  ],
+  "author": "Pham Quoc Du Thien",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/duthienkt/esp-mini-home/issues"
+  },
+  "homepage": "https://github.com/duthienkt/esp-mini-home#readme",
+  "dependencies": {
+    "absol": "^1.16.0",
+    "absol-acomp": "^0.9.56",
+    "absol-mobile": "github:duthienkt/absol-mobile",
+    "mqtt": "^4.2.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "7.3.1",
+    "@babel/register": "7.0.0",
+    "babel-loader": "^8.2.2",
+    "babel-minify-webpack-plugin": "^0.3.1",
+    "css-loader": "^2.1.1",
+    "raw-loader": "^2.0.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
