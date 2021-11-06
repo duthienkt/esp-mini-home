@@ -5,8 +5,8 @@
 #include <PubSubClient.h>
 
 #ifndef STASSID
-#define STASSID "ESPMesh"
-#define STAPSK  "espwifi8266"
+#define STASSID "Du Thien"
+#define STAPSK  "23456789"
 #endif
 
 #define DEVICE_NAME "ESP_SMART_PLUG_DO_HOME"
@@ -14,18 +14,21 @@
 
 #define LED 5
 #define RELAY 12
-
+#define BUTTON 4
 /**
    8285
    4 5(led) 12(relay) 15
    8266
    1: led, 2: Relay
 
+   13 14 16
+
 */
 
 const char* ssid = STASSID;
 const char* password = STAPSK;
 const char* host = DEVICE_NAME;
+
 
 
 
@@ -40,13 +43,11 @@ PubSubClient mqttClient(espClient);
 void setupIO() {
   pinMode(LED, OUTPUT);
   pinMode(RELAY, OUTPUT);
-  setRelay(false);
-}
 
-bool isRelayOn = false;
-void setRelay(boolean isOn) {
-  digitalWrite(RELAY, isOn ?   HIGH : LOW );
-  isRelayOn = isOn;
+  pinMode(BUTTON, INPUT_PULLUP);
+
+
+  setRelay(false);
 }
 
 
@@ -54,18 +55,43 @@ void setLed(boolean isOn) {
   digitalWrite(LED, isOn ? LOW : HIGH);
 }
 
+bool isRelayOn = false;
+void setRelay(boolean isOn) {
+  digitalWrite(RELAY, isOn ?   HIGH : LOW );
+  isRelayOn = isOn;
+  setLed(isOn);
+}
 
 
+
+
+long long ioTime = 0;
+byte buttonSum = 10;
 void ioLoop() {
-  //todo
+  bool pressing = digitalRead(BUTTON) == LOW;
+  if (!pressing && buttonSum < 10) {
+    buttonSum++;
+  }
+  else if (buttonSum > 0 && pressing) {
+    buttonSum--;
+    if (buttonSum == 0) {
+      setRelay(!isRelayOn);
+      sendStatus();
+    }
+  }
 }
 
 void setupWifi() {
+  WiFi.disconnect(true);
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
   setLed(true);
+  long i = 0;
   while (WiFi.waitForConnectResult() != WL_CONNECTED) {
     WiFi.begin(ssid, password);
+    delay(50);
+    setLed(i % 2 == 0);
+    ++i;
   }
   setLed(false);
   WiFi.setAutoReconnect(true);
@@ -74,9 +100,12 @@ void setupWifi() {
 void wifiLoop() {
   if (WiFi.status() != WL_CONNECTED) {
     WiFi.reconnect();
-    setLed(true);
-    delay(1000);
-    setLed(false);
+    for (int i = 0; i < 6; ++i) {
+      setLed(i % 2 == 0);
+      delay(166);
+    }
+
+    setLed(isRelayOn);
   }
 }
 
@@ -157,13 +186,13 @@ void mqttLoop()
       mqttClient.subscribe(CHANNEL "/" DEVICE_NAME "/command");
       mqttClient.subscribe(CHANNEL "/" DEVICE_NAME "/what_status");
       mqttClient.subscribe(CHANNEL "/who_online");
-      
+
     }
     else
     {
-      setLed(true);
+      setLed(!isRelayOn);
       delay(100);
-      setLed(false);
+      setLed(isRelayOn);
     }
   }
   mqttClient.loop();
